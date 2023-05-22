@@ -1,14 +1,4 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
-}
+pub mod config; // Maybe feature lock this for backend/web usage only? web would only need it in the case of the admin panel
+pub mod entities;
+pub mod errors;
+pub mod utils;
