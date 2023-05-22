@@ -1,7 +1,7 @@
-mod regex;
+mod regexes;
 mod rights;
 mod snowflake;
 
-pub use regex::*;
+pub use regexes::*;
 pub use rights::Rights;
 pub use snowflake::{DeconstructedSnowflake, Snowflake};
