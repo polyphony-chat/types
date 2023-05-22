@@ -1,4 +1,4 @@
-use std::{fmt::Display, time::SystemTime};
+use std::fmt::Display;
 
 use atomic::Atomic;
 use bigdecimal::{Num, ToPrimitive, Zero};
@@ -67,9 +67,9 @@ impl Snowflake {
             let high: BigInt = &num >> 32;
             let low: BigInt = (high.clone() % &ten) << 32 | &num & BigInt::from((1u64 << 32) - 1);
 
-            let next: BigInt = (low.clone() % &ten);
+            let next: BigInt = low.clone() % &ten;
             dec.push(next.to_u8().unwrap());
-            num = (high / &ten) << 32 | low / &ten;
+            num = (high / &ten) << 32 | (low / &ten);
         }
 
         while !num.is_zero() {
@@ -110,8 +110,8 @@ impl Snowflake {
             timestamp: ts,
             worker_id: wid,
             process_id: pid,
-            increment: increment,
-            binary: binary,
+            increment,
+            binary,
         }
     }
 }
