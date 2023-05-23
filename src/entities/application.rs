@@ -1,5 +1,5 @@
-use crate::entities::user::User;
-use crate::errors::Error;
+
+
 use crate::utils::Snowflake;
 use bitflags::bitflags;
 use serde::{Deserialize, Serialize};

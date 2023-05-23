@@ -3,7 +3,7 @@ use serde_json::Value;
 #[cfg(feature = "sqlx")]
 use sqlx::FromRow;
 
-use crate::errors::Error;
+
 
 #[derive(Debug, Serialize, Deserialize)]
 #[cfg_attr(feature = "sqlx", derive(FromRow))]
