@@ -1,3 +1,4 @@
+#[cfg(feature = "poem")]
 use poem::{http::StatusCode, IntoResponse, Response};
 use serde_json::{json, Value};
 
@@ -48,6 +49,7 @@ impl AuthError {
     }
 }
 
+#[cfg(feature = "poem")]
 impl poem::error::ResponseError for APIError {
     fn status(&self) -> StatusCode {
         match self {
@@ -58,7 +60,7 @@ impl poem::error::ResponseError for APIError {
         }
     }
 
-    fn as_response(&self) -> poem::Response
+    fn as_response(&self) -> Response
     where
         Self: std::error::Error + Send + Sync + 'static,
     {
