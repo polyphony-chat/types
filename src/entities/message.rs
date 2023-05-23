@@ -53,6 +53,77 @@ pub struct MessageCreate {
     mentions: Vec<(User, GuildMember)>, // Not sure if this is correct: https://discord.com/developers/docs/topics/gateway-events#message-create
 }
 
+#[derive(Debug, Serialize, Deserialize, Default)]
+pub struct MessageUpdate {
+    #[serde(flatten)]
+    message: PartialMessage,
+    guild_id: Option<String>,
+    member: Option<GuildMember>,
+    mentions: Vec<(UserObject, GuildMember)>, // Not sure if this is correct: https://discord.com/developers/docs/topics/gateway-events#message-create
+}
+
+impl WebSocketEvent for MessageUpdate {}
+
+#[derive(Debug, Serialize, Deserialize, Default)]
+pub struct MessageDelete {
+    id: String,
+    channel_id: String,
+    guild_id: Option<String>,
+}
+
+impl WebSocketEvent for MessageDelete {}
+
+#[derive(Debug, Serialize, Deserialize, Default)]
+pub struct MessageDeleteBulk {
+    ids: Vec<String>,
+    channel_id: String,
+    guild_id: Option<String>,
+}
+
+impl WebSocketEvent for MessageDeleteBulk {}
+
+#[derive(Debug, Serialize, Deserialize, Default)]
+pub struct MessageReactionAdd {
+    user_id: String,
+    channel_id: String,
+    message_id: String,
+    guild_id: Option<String>,
+    member: Option<GuildMember>,
+    emoji: Emoji,
+}
+
+impl WebSocketEvent for MessageReactionAdd {}
+
+#[derive(Debug, Serialize, Deserialize, Default)]
+pub struct MessageReactionRemove {
+    user_id: String,
+    channel_id: String,
+    message_id: String,
+    guild_id: Option<String>,
+    emoji: Emoji,
+}
+
+impl WebSocketEvent for MessageReactionRemove {}
+
+#[derive(Debug, Serialize, Deserialize, Default)]
+pub struct MessageReactionRemoveAll {
+    channel_id: String,
+    message_id: String,
+    guild_id: Option<String>,
+}
+
+impl WebSocketEvent for MessageReactionRemoveAll {}
+
+#[derive(Debug, Serialize, Deserialize, Default)]
+pub struct MessageReactionRemoveEmoji {
+    channel_id: String,
+    message_id: String,
+    guild_id: Option<String>,
+    emoji: Emoji,
+}
+
+impl WebSocketEvent for MessageReactionRemoveEmoji {}
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MessageReference {
     pub message_id: Snowflake,
