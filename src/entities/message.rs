@@ -59,10 +59,10 @@ impl WebSocketEvent for MessageCreate {}
 #[derive(Debug, Serialize, Deserialize, Default)]
 pub struct MessageUpdate {
     #[serde(flatten)]
-    message: PartialMessage,
+    message: Message,
     guild_id: Option<String>,
     member: Option<GuildMember>,
-    mentions: Vec<(UserObject, GuildMember)>, // Not sure if this is correct: https://discord.com/developers/docs/topics/gateway-events#message-create
+    mentions: Vec<(User, GuildMember)>, // Not sure if this is correct: https://discord.com/developers/docs/topics/gateway-events#message-create
 }
 
 impl WebSocketEvent for MessageUpdate {}
