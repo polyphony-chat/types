@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::config::types::subconfigs::defaults::{guild::GuildDefaults, user::UserDefaults};
 
-#[derive(Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Default, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct DefaultsConfiguration {
     pub guild: GuildDefaults,

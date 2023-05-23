@@ -54,7 +54,10 @@ pub struct User {
     pub connected_account_ids: sqlx::types::Json<Vec<String>>,
     #[cfg(not(feature = "sqlx"))]
     pub connected_account_ids: Vec<String>,
-    //pub data: UserData,
+    #[cfg(feature = "sqlx")]
+    pub data: sqlx::types::Json<UserData>,
+    #[cfg(not(feature = "sqlx"))]
+    pub data: UserData,
     #[cfg(feature = "sqlx")]
     pub fingerprints: sqlx::types::Json<Vec<String>>,
     #[cfg(not(feature = "sqlx"))]
@@ -64,6 +67,7 @@ pub struct User {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
+#[cfg_attr(feature = "sqlx", derive(Type))]
 pub struct UserData {
     pub valid_tokens_since: DateTime<Utc>,
     pub hash: Option<String>,
@@ -106,7 +110,7 @@ impl Default for User {
             rights: String::new(),
             relationship_ids: Default::default(),
             connected_account_ids: Default::default(),
-            //data: UserData::default(),
+            data: Default::default(),
             fingerprints: Default::default(),
             //settings: UserSettings::default(),
             extended_settings: Value::Object(Map::new()),
@@ -159,6 +163,19 @@ impl User {
         sqlx::query_as("SELECT * FROM users WHERE username = ? AND discriminator = ?")
             .bind(user)
             .bind(discrim)
+            .fetch_optional(conn)
+            .await
+            .map_err(Error::SQLX)
+    }
+
+    pub async fn get_user_by_email_or_phone(
+        conn: &mut sqlx::MySqlConnection,
+        email: &str,
+        phone: &str,
+    ) -> Result<Option<Self>, Error> {
+        sqlx::query_as("SELECT * FROM users WHERE email = ? OR phone = ? LIMIT 1")
+            .bind(email)
+            .bind(phone)
             .fetch_optional(conn)
             .await
             .map_err(Error::SQLX)

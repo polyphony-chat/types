@@ -9,4 +9,19 @@ pub enum Error {
 
     #[error(transparent)]
     IO(#[from] std::io::Error),
+    
+    #[error(transparent)]
+    FieldFormat(#[from] FieldFormatError)
+}
+
+#[derive(Debug, PartialEq, Eq, thiserror::Error)]
+pub enum FieldFormatError {
+    #[error("Password must be between 1 and 72 characters.")]
+    PasswordError,
+    #[error("Username must be between 2 and 32 characters.")]
+    UsernameError,
+    #[error("Consent must be 'true' to register.")]
+    ConsentError,
+    #[error("The provided email address is in an invalid format.")]
+    EmailError,
 }

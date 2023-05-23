@@ -1,4 +1,4 @@
-use std::{fmt::Display};
+use std::fmt::Display;
 
 use atomic::Atomic;
 use bigdecimal::{Num, ToPrimitive, Zero};

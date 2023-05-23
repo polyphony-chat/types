@@ -1,10 +1,8 @@
 use serde::{Deserialize, Serialize};
 
-use crate::config::types::subconfigs::limits::ratelimits::{
-    auth::AuthRateLimit, RateLimitOptions,
-};
+use crate::config::types::subconfigs::limits::ratelimits::{auth::AuthRateLimit, RateLimitOptions};
 
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct RouteRateLimit {
     pub guild: RateLimitOptions,
     pub webhook: RateLimitOptions,

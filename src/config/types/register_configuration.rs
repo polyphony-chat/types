@@ -4,7 +4,7 @@ use crate::config::types::subconfigs::register::{
     DateOfBirthConfiguration, PasswordConfiguration, RegistrationEmailConfiguration,
 };
 
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct RegisterConfiguration {
     pub email: RegistrationEmailConfiguration,

@@ -5,7 +5,7 @@ use crate::config::types::subconfigs::limits::{
     rates::RateLimits, user::UserLimits,
 };
 
-#[derive(Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Default, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct LimitsConfiguration {
     pub user: UserLimits,

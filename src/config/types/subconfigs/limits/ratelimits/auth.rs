@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::config::types::subconfigs::limits::ratelimits::RateLimitOptions;
 
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct AuthRateLimit {
     pub login: RateLimitOptions,
     pub register: RateLimitOptions,
