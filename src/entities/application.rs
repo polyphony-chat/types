@@ -1,11 +1,11 @@
-use crate::entities::user::User;
-use crate::errors::Error;
+
+
 use crate::utils::Snowflake;
 use bitflags::{bitflags, Flags};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 #[cfg(feature = "sqlx")]
-use sqlx::{Decode, Encode, FromRow, Type};
+use sqlx::FromRow;
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "sqlx", derive(FromRow))]

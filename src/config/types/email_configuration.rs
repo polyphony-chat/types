@@ -15,6 +15,7 @@ pub enum EmailProvider {
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+#[derive(Default)]
 pub struct EmailConfiguration {
     pub provider: Option<EmailProvider>,
     pub smtp: SMTPConfiguration,
@@ -23,14 +24,4 @@ pub struct EmailConfiguration {
     pub sendgrid: SendGridConfiguration,
 }
 
-impl Default for EmailConfiguration {
-    fn default() -> Self {
-        Self {
-            provider: None,
-            smtp: SMTPConfiguration::default(),
-            mailgun: MailGunConfiguration::default(),
-            mailjet: MailJetConfiguration::default(),
-            sendgrid: SendGridConfiguration::default(),
-        }
-    }
-}
+
