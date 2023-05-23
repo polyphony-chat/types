@@ -182,6 +182,35 @@ impl User {
     }
 }
 
+#[derive(Serialize, Deserialize, Debug, Default, Clone)]
+pub struct PrivateUser {
+    pub id: String,
+    username: String,
+    discriminator: String,
+    avatar: Option<String>,
+    bot: bool,
+    system: Option<bool>,
+    mfa_enabled: Option<bool>,
+    accent_color: Option<String>,
+    locale: Option<String>,
+    verified: Option<bool>,
+    email: Option<String>,
+    flags: String,
+    premium_since: Option<String>,
+    premium_type: i8,
+    pronouns: Option<String>,
+    public_flags: Option<i8>,
+    banner: Option<String>,
+    bio: String,
+    theme_colors: Option<Vec<i32>>,
+    phone: Option<String>,
+    nsfw_allowed: bool,
+    premium: bool,
+    purchased_flags: i32,
+    premium_usage_flags: i32,
+    disabled: Option<bool>,
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PublicUser {
     pub id: Snowflake,
