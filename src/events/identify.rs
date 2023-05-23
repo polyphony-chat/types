@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use crate::events::WebSocketEvent;
+use crate::events::{PresenceUpdate, WebSocketEvent};
 
 #[derive(Debug, Deserialize, Serialize, Default)]
 pub struct GatewayIdentifyPayload {
