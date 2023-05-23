@@ -98,6 +98,12 @@ fn generate_pairs(obj: &Value, key: &str) -> Vec<ConfigEntity> {
                 pairs.extend(generate_pairs(v, &new_key));
             }
         }
+        Value::Array(arr) => {
+            for (i, v) in arr.iter().enumerate() {
+                let new_key = format!("{}_{}", key, i);
+                pairs.extend(generate_pairs(v, &new_key));
+            }
+        }
         _ => pairs.push(ConfigEntity {
             key: key.to_string(),
             value: Some(obj.clone()),
