@@ -142,46 +142,6 @@ impl User {
     }
 }
 
-#[cfg(feature = "sqlx")]
-impl User {
-    pub async fn get_by_id(
-        conn: &mut sqlx::MySqlConnection,
-        id: &Snowflake,
-    ) -> Result<Option<Self>, Error> {
-        sqlx::query_as("SELECT * FROM users WHERE id = ?")
-            .bind(id)
-            .fetch_optional(conn)
-            .await
-            .map_err(Error::SQLX)
-    }
-
-    pub async fn find_by_user_and_discrim(
-        conn: &mut sqlx::MySqlConnection,
-        user: &str,
-        discrim: &str,
-    ) -> Result<Option<Self>, Error> {
-        sqlx::query_as("SELECT * FROM users WHERE username = ? AND discriminator = ?")
-            .bind(user)
-            .bind(discrim)
-            .fetch_optional(conn)
-            .await
-            .map_err(Error::SQLX)
-    }
-
-    pub async fn get_user_by_email_or_phone(
-        conn: &mut sqlx::MySqlConnection,
-        email: &str,
-        phone: &str,
-    ) -> Result<Option<Self>, Error> {
-        sqlx::query_as("SELECT * FROM users WHERE email = ? OR phone = ? LIMIT 1")
-            .bind(email)
-            .bind(phone)
-            .fetch_optional(conn)
-            .await
-            .map_err(Error::SQLX)
-    }
-}
-
 #[derive(Serialize, Deserialize, Debug, Default, Clone)]
 pub struct PrivateUser {
     pub id: String,
