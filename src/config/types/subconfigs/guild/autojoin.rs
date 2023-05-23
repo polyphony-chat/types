@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::utils::Snowflake;
 
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct AutoJoinConfiguration {
     pub enabled: bool,

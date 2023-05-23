@@ -29,7 +29,7 @@ use crate::{
 
 mod types;
 
-#[derive(Debug, Default, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Default, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ConfigValue {
     pub gateway: EndpointConfiguration,

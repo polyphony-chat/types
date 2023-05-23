@@ -116,7 +116,7 @@ pub enum GuildFeatures {
     WelcomeScreenEnabled,
 }
 
-#[derive(Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Default, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct GuildConfiguration {
     pub discovery: DiscoverConfiguration,

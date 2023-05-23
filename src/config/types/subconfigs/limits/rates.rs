@@ -4,7 +4,7 @@ use crate::config::types::subconfigs::limits::ratelimits::{
     route::RouteRateLimit, RateLimitOptions,
 };
 
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct RateLimits {
     pub enabled: bool,
     pub ip: RateLimitOptions,

@@ -1,11 +1,9 @@
 use base64::Engine;
 use serde::{Deserialize, Serialize};
 
-use crate::config::types::subconfigs::security::{
-    CaptchaConfiguration, TwoFactorConfiguration,
-};
+use crate::config::types::subconfigs::security::{CaptchaConfiguration, TwoFactorConfiguration};
 
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct SecurityConfiguration {
     pub captcha: CaptchaConfiguration,

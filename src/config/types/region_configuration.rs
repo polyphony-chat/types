@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::config::types::subconfigs::region::Region;
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct RegionConfiguration {
     pub default: String,

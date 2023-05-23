@@ -13,7 +13,7 @@ pub enum EmailProvider {
     SendGrid,
 }
 
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct EmailConfiguration {
     pub provider: Option<EmailProvider>,
