@@ -17,5 +17,5 @@ pub struct Region {
     pub vip: bool,
     pub custom: bool,
     #[serde(default)]
-    pub depreciated: bool,
+    pub deprecated: bool,
 }
