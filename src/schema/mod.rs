@@ -6,12 +6,15 @@ mod user;
 
 pub use apierror::*;
 pub use auth::*;
+pub use guild::*;
+pub use message::*;
+pub use user::*;
 
 #[cfg(test)]
 mod schemas_tests {
     use super::*;
     use crate::errors::FieldFormatError;
-    
+
     #[test]
     fn password_too_short() {
         assert_eq!(
@@ -19,7 +22,7 @@ mod schemas_tests {
             Err(FieldFormatError::PasswordError)
         );
     }
-    
+
     #[test]
     fn password_too_long() {
         let mut long_pw = String::new();
@@ -31,7 +34,7 @@ mod schemas_tests {
             Err(FieldFormatError::PasswordError)
         );
     }
-    
+
     #[test]
     fn username_too_short() {
         assert_eq!(
@@ -39,7 +42,7 @@ mod schemas_tests {
             Err(FieldFormatError::UsernameError)
         );
     }
-    
+
     #[test]
     fn username_too_long() {
         let mut long_un = String::new();
@@ -51,7 +54,7 @@ mod schemas_tests {
             Err(FieldFormatError::UsernameError)
         );
     }
-    
+
     #[test]
     fn consent_false() {
         assert_eq!(
@@ -70,7 +73,7 @@ mod schemas_tests {
             Err(FieldFormatError::ConsentError)
         );
     }
-    
+
     #[test]
     fn invalid_email() {
         assert_eq!(
@@ -78,7 +81,7 @@ mod schemas_tests {
             Err(FieldFormatError::EmailError)
         )
     }
-    
+
     #[test]
     fn valid_email() {
         let reg = RegisterSchema::new(
