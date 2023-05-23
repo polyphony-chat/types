@@ -1,12 +1,5 @@
-use crate::errors::Error;
-use lazy_static::lazy_static;
-use regex::internal::Input;
 use serde::{Deserialize, Serialize};
 use serde_json::{Map, Value};
-
-
-#[cfg(feature = "backend")]
-use tokio::{io::AsyncReadExt, sync::RwLock};
 
 pub use crate::{
     config::types::{
@@ -64,25 +57,6 @@ impl ConfigValue {
     pub fn from_pairs(pairs: Vec<ConfigEntity>) -> Self {
         pairs_to_config(pairs)
     }
-
-    #[cfg(feature = "backend")]
-    pub async fn init(conn: &mut sqlx::MySqlConnection) -> Result<Self, Error> {
-        let config = if let Ok(confg_path) = std::env::var("CONFIG_PATH") {
-            if let Ok(mut f) = tokio::fs::File::open(&confg_path).await {
-                let mut data = String::new();
-                f.read_to_string(&mut data).await?;
-
-                serde_json::from_str(&data)?
-            } else {
-                Self::default()
-            }
-        } else {
-            let pairs = ConfigEntity::collect(conn).await?;
-            Self::from_pairs(pairs)
-        };
-
-        Ok(config)
-    }
 }
 
 fn generate_pairs(obj: &Value, key: &str) -> Vec<ConfigEntity> {
@@ -98,6 +72,12 @@ fn generate_pairs(obj: &Value, key: &str) -> Vec<ConfigEntity> {
                 pairs.extend(generate_pairs(v, &new_key));
             }
         }
+        Value::Array(arr) => {
+            for (i, v) in arr.iter().enumerate() {
+                let new_key = format!("{}_{}", key, i);
+                pairs.extend(generate_pairs(v, &new_key));
+            }
+        }
         _ => pairs.push(ConfigEntity {
             key: key.to_string(),
             value: Some(obj.clone()),
@@ -107,37 +87,87 @@ fn generate_pairs(obj: &Value, key: &str) -> Vec<ConfigEntity> {
 }
 
 fn pairs_to_config(pairs: Vec<ConfigEntity>) -> ConfigValue {
-    let mut value = Map::new();
-
+    let mut value = Value::Object(Map::new());
+    
     for p in pairs {
         let keys: Vec<&str> = p.key.split('_').collect();
-        let mut i = 0;
-
-        let mut current_level = &mut value;
-
-        while i < keys.len() {
-            let key = keys[i];
+        let mut path = vec![];
+        
+        for (i, &key) in keys.iter().enumerate() {
+            path.push(key);
+            
             if i == keys.len() - 1 {
-                current_level.insert(key.to_string(), p.value.clone().unwrap_or(Value::Null));
-                break;
-            } else {
-                let next_level = current_level
-                    .entry(key.to_string())
-                    .or_insert_with(|| Value::Object(Map::new()));
-                match next_level {
-                    Value::Object(map) => current_level = map,
-                    _ => {
-                        eprintln!("Unexpected non-object value at key {}", key);
-                        break;
-                    }
+                insert_into(&mut value, &path, p.value.clone().unwrap_or(Value::Null));
+            } else if keys[i+1].parse::<usize>().is_ok() {
+                if !path_exists(&value, &path) {
+                    insert_into(&mut value, &path, Value::Array(Vec::new()));
                 }
+            } else if !path_exists(&value, &path) {
+                insert_into(&mut value, &path, Value::Object(Map::new()));
             }
-            i += 1;
         }
     }
 
-    println!("{:?}", value);
-    serde_json::from_value(Value::Object(value)).unwrap()
+    serde_json::from_value(value).unwrap()
+}
+
+fn path_exists(value: &Value, path: &[&str]) -> bool {
+    let mut current = value;
+    
+    for &key in path {
+        match current {
+            Value::Object(map) => {
+                if let Some(v) = map.get(key) {
+                    current = v;
+                } else {
+                    return false;
+                }
+            },
+            Value::Array(arr) => {
+                if let Ok(index) = key.parse::<usize>() {
+                    if let Some(v) = arr.get(index) {
+                        current = v;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            },
+            _ => return false,
+        }
+    }
+    
+    true
+}
+
+fn insert_into(value: &mut Value, path: &[&str], new_value: Value) {
+    let last_key = path.last().unwrap();
+    let parent_path = &path[0..path.len()-1];
+    
+    let mut current = value;
+    
+    for &key in parent_path {
+        current = match current {
+            Value::Object(map) => map.get_mut(key).unwrap(),
+            Value::Array(arr) => arr.get_mut(key.parse::<usize>().unwrap()).unwrap(),
+            _ => unreachable!(),
+        };
+    }
+    
+    match current {
+        Value::Object(map) => {
+            map.insert((*last_key).to_string(), new_value);
+        },
+        Value::Array(arr) => {
+            let index = last_key.parse::<usize>().unwrap();
+            if index >= arr.len() {
+                arr.resize(index + 1, Value::Null);
+            }
+            arr[index] = new_value;
+        },
+        _ => unreachable!(),
+    };
 }
 
 #[cfg(test)]

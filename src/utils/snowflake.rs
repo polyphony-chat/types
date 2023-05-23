@@ -5,7 +5,7 @@ use bigdecimal::{Num, ToPrimitive, Zero};
 use num_bigint::{BigInt, ToBigInt};
 use serde::{Deserialize, Serialize};
 #[cfg(feature = "sqlx")]
-use sqlx::{mysql::MySqlTypeInfo, Type, TypeInfo};
+use sqlx::Type;
 
 const EPOCH: i64 = 1420070400000;
 static WORKER_ID: u128 = 0;

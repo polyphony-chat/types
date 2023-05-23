@@ -120,6 +120,7 @@ pub enum GuildFeatures {
 #[serde(rename_all = "camelCase")]
 pub struct GuildConfiguration {
     pub discovery: DiscoverConfiguration,
-    pub autojoin: AutoJoinConfiguration,
-    pub defaultfeatures: Vec<GuildFeatures>,
+    pub auto_join: AutoJoinConfiguration,
+    #[serde(default)]
+    pub default_features: Vec<GuildFeatures>,
 }
