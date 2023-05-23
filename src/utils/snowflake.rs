@@ -60,8 +60,8 @@ impl Snowflake {
         let mut dec = Vec::with_capacity(18);
 
         let ten = 10.to_bigint().unwrap();
-        let two = 2.to_bigint().unwrap();
-        let thirty_two = 32.to_bigint().unwrap();
+        let _two = 2.to_bigint().unwrap();
+        let _thirty_two = 32.to_bigint().unwrap();
 
         while num.bits() > 50 {
             let high: BigInt = &num >> 32;

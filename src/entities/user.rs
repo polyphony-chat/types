@@ -131,7 +131,7 @@ impl User {
         todo!()
     }
 
-    pub async fn generate_discriminator(username: &str) -> Result<String, Error> {
+    pub async fn generate_discriminator(_username: &str) -> Result<String, Error> {
         todo!()
     }
 }

@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::utils::Snowflake;
+
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct LatLong {
