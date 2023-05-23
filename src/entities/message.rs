@@ -5,6 +5,7 @@ use crate::{
         Application, Attachment, Channel, Emoji, GuildMember, RoleSubscriptionData, Sticker,
         StickerItem, User,
     },
+    events::WebSocketEvent,
     utils::Snowflake,
 };
 
@@ -42,15 +43,6 @@ pub struct Message {
     stickers: Option<Vec<Sticker>>,
     position: Option<i32>,
     role_subscription_data: Option<RoleSubscriptionData>,
-}
-
-#[derive(Debug, Serialize, Deserialize, Default)]
-pub struct MessageCreate {
-    #[serde(flatten)]
-    message: Message,
-    guild_id: Option<Snowflake>,
-    member: Option<GuildMember>,
-    mentions: Vec<(User, GuildMember)>, // Not sure if this is correct: https://discord.com/developers/docs/topics/gateway-events#message-create
 }
 
 #[derive(Debug, Serialize, Deserialize)]
