@@ -73,8 +73,8 @@ pub struct MessageInteraction {
 
 #[derive(Debug, Serialize, Deserialize)]
 struct ChannelMention {
-    id: String,
-    guild_id: String,
+    id: Snowflake,
+    guild_id: Snowflake,
     #[serde(rename = "type")]
     channel_type: i32,
     name: String,
