@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 #[serde(rename_all = "camelCase")]
 pub struct MessageLimits {
     pub max_characters: u32,
+    #[serde(default)]
     pub max_tts_characters: u32,
     pub max_reactions: u32,
     pub max_attachment_size: u64,
