@@ -1,7 +1,7 @@
 use jsonwebtoken::{encode, EncodingKey, Header};
 use serde::{Deserialize, Serialize};
 
-use crate::{errors::Error, utils::Snowflake};
+use crate::{utils::Snowflake};
 
 pub fn generate_token(id: &Snowflake, email: String, jwt_key: &str) -> String {
     let claims = Claims::new(&email, id);

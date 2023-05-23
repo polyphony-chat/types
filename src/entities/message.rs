@@ -5,7 +5,6 @@ use crate::{
         Application, Attachment, Channel, Emoji, GuildMember, RoleSubscriptionData, Sticker,
         StickerItem, User,
     },
-    events::WebSocketEvent,
     utils::Snowflake,
 };
 

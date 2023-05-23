@@ -61,7 +61,7 @@ impl ThreadMemberUpdate {
             user_id: self.user_id,
             join_timestamp: self.join_timestamp.clone(),
             flags: self.flags,
-            member: self.member.clone(),
+            member: self.member,
         }
     }
 }
