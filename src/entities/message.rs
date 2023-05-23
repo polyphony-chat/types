@@ -72,6 +72,22 @@ pub struct MessageInteraction {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+pub struct AllowedMention {
+    parse: Vec<AllowedMentionType>,
+    roles: Vec<Snowflake>,
+    users: Vec<Snowflake>,
+    replied_user: bool,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum AllowedMentionType {
+    Roles,
+    Users,
+    Everyone,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
 struct ChannelMention {
     id: Snowflake,
     guild_id: Snowflake,

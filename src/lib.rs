@@ -2,3 +2,5 @@ pub mod config; // Maybe feature lock this for backend/web usage only? web would
 pub mod entities;
 pub mod errors;
 pub mod utils;
+pub mod interfaces;
+pub mod schema;
