@@ -104,3 +104,9 @@ pub struct GuildInvite {
     pub target_user_type: Option<i32>,
     pub vanity_url: Option<bool>,
 }
+
+#[derive(Serialize, Deserialize, Debug, Default)]
+pub struct UnavailableGuild {
+    id: String,
+    unavailable: bool,
+}
