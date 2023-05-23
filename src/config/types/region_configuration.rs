@@ -22,7 +22,7 @@ impl Default for RegionConfiguration {
                 location: None,
                 vip: false,
                 custom: false,
-                depreciated: false,
+                deprecated: false,
             }],
         }
     }
