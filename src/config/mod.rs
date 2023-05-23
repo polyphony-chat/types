@@ -8,7 +8,7 @@ use std::collections::HashMap;
 #[cfg(feature = "backend")]
 use tokio::{io::AsyncReadExt, sync::RwLock};
 
-use crate::{
+pub use crate::{
     config::types::{
         api_configuration::ApiConfiguration, cdn_configuration::CdnConfiguration,
         defaults_configuration::DefaultsConfiguration, email_configuration::EmailConfiguration,
@@ -54,11 +54,6 @@ pub struct ConfigValue {
     pub password_reset: PasswordResetConfiguration,
 }
 
-#[cfg(feature = "backend")]
-lazy_static! {
-    static ref CONFIG: RwLock<ConfigValue> = RwLock::default();
-}
-
 impl ConfigValue {
     pub fn to_pairs(&self) -> Vec<ConfigEntity> {
         let v = serde_json::json!(self);
@@ -71,7 +66,7 @@ impl ConfigValue {
     }
 
     #[cfg(feature = "backend")]
-    pub async fn init(conn: &mut sqlx::MySqlConnection) -> Result<(), Error> {
+    pub async fn init(conn: &mut sqlx::MySqlConnection) -> Result<Self, Error> {
         let config = if let Ok(confg_path) = std::env::var("CONFIG_PATH") {
             if let Ok(mut f) = tokio::fs::File::open(&confg_path).await {
                 let mut data = String::new();
@@ -86,8 +81,7 @@ impl ConfigValue {
             Self::from_pairs(pairs)
         };
 
-        *CONFIG.write().await = config;
-        Ok(())
+        Ok(config)
     }
 }
 
@@ -106,7 +100,7 @@ fn generate_pairs(obj: &Value, key: &str) -> Vec<ConfigEntity> {
         }
         _ => pairs.push(ConfigEntity {
             key: key.to_string(),
-            value: obj.clone(),
+            value: Some(obj.clone()),
         }),
     }
     pairs
@@ -124,7 +118,7 @@ fn pairs_to_config(pairs: Vec<ConfigEntity>) -> ConfigValue {
         while i < keys.len() {
             let key = keys[i];
             if i == keys.len() - 1 {
-                current_level.insert(key.to_string(), p.value.clone());
+                current_level.insert(key.to_string(), p.value.clone().unwrap_or(Value::Null));
                 break;
             } else {
                 let next_level = current_level
@@ -142,6 +136,7 @@ fn pairs_to_config(pairs: Vec<ConfigEntity>) -> ConfigValue {
         }
     }
 
+    println!("{:?}", value);
     serde_json::from_value(Value::Object(value)).unwrap()
 }
 
