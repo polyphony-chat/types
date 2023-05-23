@@ -1,12 +1,5 @@
-use crate::errors::Error;
-use lazy_static::lazy_static;
-use regex::internal::Input;
 use serde::{Deserialize, Serialize};
 use serde_json::{Map, Value};
-
-
-#[cfg(feature = "backend")]
-use tokio::{io::AsyncReadExt, sync::RwLock};
 
 pub use crate::{
     config::types::{
@@ -63,25 +56,6 @@ impl ConfigValue {
 
     pub fn from_pairs(pairs: Vec<ConfigEntity>) -> Self {
         pairs_to_config(pairs)
-    }
-
-    #[cfg(feature = "backend")]
-    pub async fn init(conn: &mut sqlx::MySqlConnection) -> Result<Self, Error> {
-        let config = if let Ok(confg_path) = std::env::var("CONFIG_PATH") {
-            if let Ok(mut f) = tokio::fs::File::open(&confg_path).await {
-                let mut data = String::new();
-                f.read_to_string(&mut data).await?;
-
-                serde_json::from_str(&data)?
-            } else {
-                Self::default()
-            }
-        } else {
-            let pairs = ConfigEntity::collect(conn).await?;
-            Self::from_pairs(pairs)
-        };
-
-        Ok(config)
     }
 }
 
