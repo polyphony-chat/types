@@ -124,6 +124,17 @@ pub struct MessageReactionRemoveEmoji {
 
 impl WebSocketEvent for MessageReactionRemoveEmoji {}
 
+#[derive(Debug, Deserialize, Serialize, Default)]
+pub struct TypingStartEvent {
+    pub channel_id: String,
+    pub guild_id: Option<String>,
+    pub user_id: String,
+    pub timestamp: i64,
+    pub member: Option<GuildMember>,
+}
+
+impl WebSocketEvent for TypingStartEvent {}
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MessageReference {
     pub message_id: Snowflake,
