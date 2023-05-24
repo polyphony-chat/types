@@ -1,3 +1,5 @@
+use serde::{Deserialize, Serialize};
+
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
     #[cfg(feature = "sqlx")]
@@ -9,9 +11,9 @@ pub enum Error {
 
     #[error(transparent)]
     IO(#[from] std::io::Error),
-    
+
     #[error(transparent)]
-    FieldFormat(#[from] FieldFormatError)
+    FieldFormat(#[from] FieldFormatError),
 }
 
 #[derive(Debug, PartialEq, Eq, thiserror::Error)]
@@ -24,4 +26,29 @@ pub enum FieldFormatError {
     ConsentError,
     #[error("The provided email address is in an invalid format.")]
     EmailError,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct ErrorResponse {
+    pub code: i32,
+    pub message: String,
+    pub errors: IntermittentError,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct IntermittentError {
+    #[serde(flatten)]
+    pub errors: std::collections::HashMap<String, ErrorField>,
+}
+
+#[derive(Serialize, Deserialize, Debug, Default)]
+pub struct ErrorField {
+    #[serde(default)]
+    pub _errors: Vec<APIError>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct APIError {
+    pub message: String,
+    pub code: String,
 }
