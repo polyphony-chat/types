@@ -110,3 +110,8 @@ pub struct UnavailableGuild {
     id: String,
     unavailable: bool,
 }
+
+#[derive(Serialize, Deserialize, Debug, Default, Clone)]
+pub struct GuildCreateResponse {
+    pub id: String,
+}

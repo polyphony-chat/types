@@ -124,3 +124,9 @@ pub struct GuildFolder {
     pub id: u16,
     pub name: String,
 }
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct LoginResult {
+    pub token: String,
+    pub settings: UserSettings,
+}
