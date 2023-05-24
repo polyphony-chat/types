@@ -1,11 +1,13 @@
 mod apierror;
 mod auth;
+mod channel;
 mod guild;
 mod message;
 mod user;
 
 pub use apierror::*;
 pub use auth::*;
+pub use channel::*;
 pub use guild::*;
 pub use message::*;
 pub use user::*;
