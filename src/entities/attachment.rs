@@ -24,7 +24,7 @@ pub struct Attachment {
 #[derive(Debug, Serialize, Deserialize, Clone)]
 
 pub struct PartialDiscordFileAttachment {
-    pub id: Option<Snowflake>,
+    pub id: Option<i16>,
     pub filename: String,
     pub description: Option<String>,
     pub content_type: Option<String>,
@@ -107,7 +107,7 @@ impl PartialDiscordFileAttachment {
         (content_type, updated_struct)
     }
 
-    pub fn set_id(&mut self, id: Snowflake) {
+    pub fn set_id(&mut self, id: i16) {
         self.id = Some(id);
     }
 }
