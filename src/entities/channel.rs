@@ -5,7 +5,7 @@ use crate::{
     utils::Snowflake,
 };
 
-#[derive(Default, Debug, Serialize, Deserialize, Clone)]
+#[derive(Default, Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
 pub struct Channel {
     pub id: Snowflake,
     #[serde(rename = "type")]
@@ -44,7 +44,7 @@ pub struct Channel {
     pub default_forum_layout: Option<i32>,
 }
 
-#[derive(Debug, Deserialize, Serialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone, PartialEq, Eq)]
 pub struct Tag {
     pub id: u64,
     pub name: String,
@@ -53,7 +53,7 @@ pub struct Tag {
     pub emoji_name: Option<String>,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
 pub struct PermissionOverwrite {
     pub id: String,
     #[serde(rename = "type")]
@@ -62,7 +62,7 @@ pub struct PermissionOverwrite {
     pub deny: String,
 }
 
-#[derive(Debug, Deserialize, Serialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone, PartialEq, Eq)]
 pub struct ThreadMetadata {
     pub archived: bool,
     pub auto_archive_duration: i32,
@@ -72,7 +72,7 @@ pub struct ThreadMetadata {
     pub create_timestamp: Option<String>,
 }
 
-#[derive(Default, Debug, Deserialize, Serialize, Clone)]
+#[derive(Default, Debug, Deserialize, Serialize, Clone, PartialEq, Eq)]
 pub struct ThreadMember {
     pub id: Option<u64>,
     pub user_id: Option<u64>,
@@ -81,13 +81,13 @@ pub struct ThreadMember {
     pub member: Option<GuildMember>,
 }
 
-#[derive(Debug, Deserialize, Serialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone, PartialEq, Eq)]
 pub struct DefaultReaction {
     pub emoji_id: Option<String>,
     pub emoji_name: Option<String>,
 }
 
-#[derive(Default, Clone, Copy, Debug, Serialize, Deserialize)]
+#[derive(Default, Clone, Copy, Debug, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 #[repr(i32)]
 pub enum ChannelType {
