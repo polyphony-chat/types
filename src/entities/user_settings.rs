@@ -24,7 +24,8 @@ pub enum UserTheme {
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct UserSettings {
-    pub id: String,
+    #[serde(skip_serializing)]
+    pub index: String, // Database relevance only
     pub afk_timeout: u16,
     pub allow_accessibility_detection: bool,
     pub animate_emoji: bool,
