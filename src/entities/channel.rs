@@ -7,7 +7,7 @@ use crate::{
 
 #[derive(Default, Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
 pub struct Channel {
-    pub id: Snowflake,
+    pub id: String,
     #[serde(rename = "type")]
     pub channel_type: ChannelType,
     pub guild_id: Option<String>,
