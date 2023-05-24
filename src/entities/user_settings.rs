@@ -62,7 +62,7 @@ pub struct UserSettings {
 impl Default for UserSettings {
     fn default() -> Self {
         Self {
-            id: Snowflake::generate().to_string(),
+            index: Snowflake::generate().to_string(),
             afk_timeout: 3600,
             allow_accessibility_detection: true,
             animate_emoji: true,
