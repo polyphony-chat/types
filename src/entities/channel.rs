@@ -87,10 +87,11 @@ pub struct DefaultReaction {
     pub emoji_name: Option<String>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Default, Clone, Copy, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 #[repr(i32)]
 pub enum ChannelType {
+    #[default]
     GuildText = 0,
     Dm = 1,
     GuildVoice = 2,
