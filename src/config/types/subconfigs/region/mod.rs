@@ -16,5 +16,6 @@ pub struct Region {
     pub location: Option<LatLong>,
     pub vip: bool,
     pub custom: bool,
-    pub depreciated: bool,
+    #[serde(default)]
+    pub deprecated: bool,
 }

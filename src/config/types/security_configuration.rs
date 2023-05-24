@@ -21,9 +21,9 @@ pub struct SecurityConfiguration {
 impl Default for SecurityConfiguration {
     fn default() -> Self {
         let mut req_sig: [u8; 32] = [0; 32];
-        openssl::rand::rand_bytes(&mut req_sig);
+        let _ = openssl::rand::rand_bytes(&mut req_sig);
         let mut jwt_secret: [u8; 256] = [0; 256];
-        openssl::rand::rand_bytes(&mut jwt_secret);
+        let _ = openssl::rand::rand_bytes(&mut jwt_secret);
         Self {
             captcha: Default::default(),
             two_factor: Default::default(),
